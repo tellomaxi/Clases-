@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1536280318 source:/home/alumno/Documentos/array/array.c
+	<stdio_ext.h>
+	<stdlib.h>
+	"utn.h"
+	"array.h"
+
+1536280384 /home/alumno/Documentos/array/array.h
+
+1536276611 source:/home/alumno/Documentos/array/utn.c
+	<stdio_ext.h>
+	<stdlib.h>
+	"utn.h"
+
+1536276611 /home/alumno/Documentos/array/utn.h
+
+1536280358 source:/home/alumno/Documentos/array/main.c
+	<stdio.h>
+	<stdlib.h>
+	"utn.h"
+	"array.h"
+
