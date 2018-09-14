@@ -1,39 +1,98 @@
-
 #include <stdio_ext.h>
+#include <string.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include "utn.h"
+#define CANTIDAD_EMPLEADOS 6
+#define BUFFER_STR 4096
+/**
+    utn_getNombre :
+    @param
+    @param
+    @return
+*/
+static int isValidNombre(char* pBuffer, int limite)
+{
+    int retorno = 0;
+    int i;
+    if(pBuffer != NULL && limite >0)
+    {
+        retorno = 1;
+        for(i=0;i<limite && pBuffer[i] != '\0';i++)
+        {
+            if(tolower(pBuffer[i])< 'a' || tolower(pBuffer[i] > 'z'))
+             {
+                retorno = 0;
+                break;
+             }
 
+        }
 
-static int getInt(int* pResultado);
+    }
 
+    return retorno;
+}
 
-int utn_getEntero(int* pEdad,int reintentos,char* msg,
-                          char*msgErr,int min, int max)
+/**
+    utn_getNombre :
+    @param
+    @param
+    @return
+*/
+static int getString(char* pBuffer, int limite)
 {
     int retorno = -1;
-    int auxiliarEdad;
-
-    for(;reintentos > 0;reintentos--)
+    char bufferStr[BUFFER_STR];
+    int len;
+    if(pBuffer!=NULL && limite>0)
     {
-        printf(msg);
-        if(getInt(&auxiliarEdad) == 0)
+        __fpurge(stdin);
+        fgets(bufferStr,limite,stdin);
+        len=strlen(bufferStr);
+        if(len != limite-1 || bufferStr[limite-2]== '\n')
         {
-            if(auxiliarEdad >= min && auxiliarEdad < max)
+            bufferStr[len-1] = '\0';
+        }
+        retorno = 0;
+        strncpy(pBuffer,bufferStr,limite);
+    }
+
+
+    return retorno;
+}
+
+
+/**
+    utn_getNombre :
+    @param
+    @param
+    @return
+*/
+int utn_getNombre(  char* pNombre,int limite, char* msg,
+                    char* msgErr, int reintentos)
+
+{
+    int retorno=-1;
+    char bufferNombre[BUFFER_STR];
+    if(pNombre!=NULL && limite > 0 && msg != NULL &&
+       msgErr != NULL && reintentos>=0)
+    {
+        do
+        {
+            reintentos--;
+            printf("%s",msg);
+            if(getString(bufferNombre,limite)==0 && isValidNombre(bufferNombre,limite))
             {
-                *pEdad = auxiliarEdad;
-                retorno = 0;
+                strncpy(pNombre,bufferNombre,limite);
+                retorno=0;
                 break;
             }
             else
             {
-                printf(msgErr);
+                printf("%s",msgErr);
             }
-        }
-        else
-        {
-            printf(msgErr);
-            __fpurge(stdin);
-        }
+
+        }while(reintentos>=0);
     }
     return retorno;
 }
@@ -43,11 +102,17 @@ int utn_getEntero(int* pEdad,int reintentos,char* msg,
 
 
 
-static int getInt(int* pResultado)
-{
-    if(scanf("%d",pResultado) == 1)
-        return 0;
-    return -1;
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
